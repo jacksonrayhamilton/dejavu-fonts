@@ -9,7 +9,12 @@ for path in glob.glob('src/*.sfd'):
     total = 0
     for glyph in font.glyphs():
         if 0x1F000 <= glyph.originalgid < 0x1FFFF:
-            sys.stdout.write('%(glyph)s ' % {'glyph': glyph.glyphname})
+            if total > 0:
+                sys.stdout.write(' , ')
+            else:
+                print
+            sys.stdout.write('%(glyph)s %(char)s' % {'glyph': glyph.glyphname,
+                                                     'char': unichr(glyph.unicode)})
             glyph.clear()
             total += 1
     if total == 0:
